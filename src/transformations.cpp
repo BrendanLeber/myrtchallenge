@@ -52,10 +52,9 @@ Matrix scaling(double_t x, double_t y, double_t z)
 }
 
 
-#if 0
 Matrix shearing(double_t xy, double_t xz, double_t yx, double_t yz, double_t zx, double_t zy)
 {
-    auto s = identity_matrix(4);
+    auto s = identity_matrix();
     s(0, 1) = xy;
     s(0, 2) = xz;
     s(1, 0) = yx;
@@ -64,7 +63,6 @@ Matrix shearing(double_t xy, double_t xz, double_t yx, double_t yz, double_t zx,
     s(2, 1) = zy;
     return s;
 }
-#endif
 
 
 Matrix translation(double_t x, double_t y, double_t z)

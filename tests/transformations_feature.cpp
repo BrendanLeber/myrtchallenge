@@ -109,3 +109,51 @@ TEST_CASE("Rotation a point around the z axis.", "[transformations]")
     REQUIRE(half_quarter * p == point(-M_SQRT2 / 2, M_SQRT2 / 2, 0));
     REQUIRE(full_quarter * p == point(-1, 0, 0));
 }
+
+
+TEST_CASE("A shearing transformation moves x in proportion to y.", "[transformations]")
+{
+    auto transform = shearing(1, 0, 0, 0, 0, 0);
+    auto p = point(2, 3, 4);
+    REQUIRE(transform * p == point(5, 3, 4));
+}
+
+
+TEST_CASE("A shearing transformation moves x in proportion to z.", "[transformations]")
+{
+    auto transform = shearing(0, 1, 0, 0, 0, 0);
+    auto p = point(2, 3, 4);
+    REQUIRE(transform * p == point(6, 3, 4));
+}
+
+
+TEST_CASE("A shearing transformation moves y in proportion to x.", "[transformations]")
+{
+    auto transform = shearing(0, 0, 1, 0, 0, 0);
+    auto p = point(2, 3, 4);
+    REQUIRE(transform * p == point(2, 5, 4));
+}
+
+
+TEST_CASE("A shearing transformation moves y in proportion to z.", "[transformations]")
+{
+    auto transform = shearing(0, 0, 0, 1, 0, 0);
+    auto p = point(2, 3, 4);
+    REQUIRE(transform * p == point(2, 7, 4));
+}
+
+
+TEST_CASE("A shearing transformation moves z in proportion to x.", "[transformations]")
+{
+    auto transform = shearing(0, 0, 0, 0, 1, 0);
+    auto p = point(2, 3, 4);
+    REQUIRE(transform * p == point(2, 3, 6));
+}
+
+
+TEST_CASE("A shearing transformation moves z in proportion to y.", "[transformations]")
+{
+    auto transform = shearing(0, 0, 0, 0, 0, 1);
+    auto p = point(2, 3, 4);
+    REQUIRE(transform * p == point(2, 3, 7));
+}
