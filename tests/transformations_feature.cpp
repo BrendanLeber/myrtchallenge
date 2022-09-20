@@ -70,3 +70,42 @@ TEST_CASE("Reflection is scaling by a negative value.", "[transformations]")
     auto p = point(2, 3, 4);
     REQUIRE(transform * p == point(-2, 3, 4));
 }
+
+
+TEST_CASE("Rotating a point around the x axis.", "[transformations]")
+{
+    auto p = point(0, 1, 0);
+    auto half_quarter = rotation_x(M_PI_4);
+    auto full_quarter = rotation_x(M_PI_2);
+    REQUIRE(half_quarter * p == point(0, M_SQRT2 / 2, M_SQRT2 / 2));
+    REQUIRE(full_quarter * p == point(0, 0, 1));
+}
+
+
+TEST_CASE("The inverse of an x-rotation rotates in the opposite direction.", "[transformations]")
+{
+    auto p = point(0, 1, 0);
+    auto half_quarter = rotation_x(M_PI_4);
+    auto inv = inverse(half_quarter);
+    REQUIRE(inv * p == point(0, M_SQRT2 / 2, -M_SQRT2 / 2));
+}
+
+
+TEST_CASE("Rotating a point around the y axis.", "[transformations]")
+{
+    auto p = point(0, 0, 1);
+    auto half_quarter = rotation_y(M_PI_4);
+    auto full_quarter = rotation_y(M_PI_2);
+    REQUIRE(half_quarter * p == point(M_SQRT2 / 2, 0, M_SQRT2 / 2));
+    REQUIRE(full_quarter * p == point(1, 0, 0));
+}
+
+
+TEST_CASE("Rotation a point around the z axis.", "[transformations]")
+{
+    auto p = point(0, 1, 0);
+    auto half_quarter = rotation_z(M_PI_4);
+    auto full_quarter = rotation_z(M_PI_2);
+    REQUIRE(half_quarter * p == point(-M_SQRT2 / 2, M_SQRT2 / 2, 0));
+    REQUIRE(full_quarter * p == point(-1, 0, 0));
+}

@@ -9,10 +9,9 @@
 #include "myrtchallenge/transformations.hpp"
 
 
-#if 0
 Matrix rotation_x(double_t rad)
 {
-    auto rot = identity_matrix(4);
+    auto rot = identity_matrix();
     rot(1, 1) =  std::cos(rad);
     rot(1, 2) = -std::sin(rad);
     rot(2, 1) =  std::sin(rad);
@@ -23,7 +22,7 @@ Matrix rotation_x(double_t rad)
 
 Matrix rotation_y(double_t rad)
 {
-    auto rot = identity_matrix(4);
+    auto rot = identity_matrix();
     rot(0, 0) =  std::cos(rad);
     rot(0, 2) =  std::sin(rad);
     rot(2, 0) = -std::sin(rad);
@@ -34,14 +33,13 @@ Matrix rotation_y(double_t rad)
 
 Matrix rotation_z(double_t rad)
 {
-    auto rot = identity_matrix(4);
+    auto rot = identity_matrix();
     rot(0, 0) =  std::cos(rad);
     rot(0, 1) = -std::sin(rad);
     rot(1, 0) =  std::sin(rad);
     rot(1, 1) =  std::cos(rad);
     return rot;
 }
-#endif
 
 
 Matrix scaling(double_t x, double_t y, double_t z)
