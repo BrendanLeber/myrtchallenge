@@ -5,13 +5,15 @@
  * @copyright Copyright 2022 by Brendan Leber.  Some rights reserved, see LICENSE.
  */
 
-#include <algorithm>
+#include <cmath>
 
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch_test_macros.hpp>
 
 #include <myrtchallenge/transformations.hpp>
 #include <myrtchallenge/tuples.hpp>
+
+#include "catch_helpers.hpp"
 
 
 TEST_CASE("Multiplying by a translation matrix.", "[transformations]")
@@ -156,4 +158,36 @@ TEST_CASE("A shearing transformation moves z in proportion to y.", "[transformat
     auto transform = shearing(0, 0, 0, 0, 0, 1);
     auto p = point(2, 3, 4);
     REQUIRE(transform * p == point(2, 3, 7));
+}
+
+
+TEST_CASE("Individual transformations are applied in sequence.", "[transformations]")
+{
+    auto p = point(1, 0, 1);
+    auto a = rotation_x(M_PI_2);
+    auto b = scaling(5, 5, 5);
+    auto c = translation(10, 5, 7);
+
+    // apply rotation first
+    auto p2 = a * p;
+    REQUIRE(p2 == point(1, -1, 0));
+
+    // then apply scaling
+    auto p3 = b * p2;
+    REQUIRE(p3 == point(5, -5, 0));
+
+    // then apply translation
+    auto p4 = c * p3;
+    REQUIRE(p4 == point(15, 0, 7));
+}
+
+
+TEST_CASE("Chained transformations must be applied in reverse order.", "[transformations]")
+{
+    auto p = point(1, 0, 1);
+    auto a = rotation_x(M_PI_2);
+    auto b = scaling(5, 5, 5);
+    auto c = translation(10, 5, 7);
+    auto t = c * b * a;
+    REQUIRE(t * p == point(15, 0, 7));
 }
