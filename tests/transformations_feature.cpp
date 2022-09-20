@@ -37,3 +37,36 @@ TEST_CASE("Translation does not affect vectors.", "[transformations]")
     auto v = vector(-3, 4, 5);
     REQUIRE(transform * v == v);
 }
+
+
+TEST_CASE("A scaling matrix applied to a point.", "[transformations]")
+{
+    auto transform = scaling(2, 3, 4);
+    auto p = point(-4, 6, 8);
+    REQUIRE(transform * p == point(-8, 18, 32));
+}
+
+
+TEST_CASE("A scaling matrix applied to a vector.", "[transformations]")
+{
+    auto transform = scaling(2, 3, 4);
+    auto v = vector(-4, 6, 8);
+    REQUIRE(transform * v == vector(-8, 18, 32));
+}
+
+
+TEST_CASE("Multiplying by the inverse of a scaling matrix.", "[transformations]")
+{
+    auto transform = scaling(2, 3, 4);
+    auto inv = inverse(transform);
+    auto v = vector(-4, 6, 8);
+    REQUIRE(inv * v == vector(-2, 2, 2));
+}
+
+
+TEST_CASE("Reflection is scaling by a negative value.", "[transformations]")
+{
+    auto transform = scaling(-1, 1, 1);
+    auto p = point(2, 3, 4);
+    REQUIRE(transform * p == point(-2, 3, 4));
+}

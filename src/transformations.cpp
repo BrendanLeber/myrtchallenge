@@ -41,11 +41,12 @@ Matrix rotation_z(double_t rad)
     rot(1, 1) =  std::cos(rad);
     return rot;
 }
+#endif
 
 
 Matrix scaling(double_t x, double_t y, double_t z)
 {
-    auto s = identity_matrix(4);
+    auto s = identity_matrix();
     s(0, 0) = x;
     s(1, 1) = y;
     s(2, 2) = z;
@@ -53,6 +54,7 @@ Matrix scaling(double_t x, double_t y, double_t z)
 }
 
 
+#if 0
 Matrix shearing(double_t xy, double_t xz, double_t yx, double_t yz, double_t zx, double_t zy)
 {
     auto s = identity_matrix(4);
