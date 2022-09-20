@@ -21,6 +21,7 @@ add_library(myrtchallenge
     colors.cpp
     matrices.cpp
     rays.cpp
+    spheres.cpp
     transformations.cpp
     tuples.cpp
     ${HEADER_LIST})
