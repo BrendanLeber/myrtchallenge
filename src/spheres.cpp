@@ -46,6 +46,12 @@ Intersections intersect(SpherePtr sphere, const Ray& ray)
 }
 
 
+Tuple normal_at(SpherePtr sphere, const Tuple& p)
+{
+    return normalize(p - point(0, 0, 0));
+}
+
+
 void set_transform(SpherePtr sphere, const Matrix& m)
 {
     sphere->transform = m;

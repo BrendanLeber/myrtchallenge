@@ -118,3 +118,43 @@ TEST_CASE("Intersecting a translated sphere with a ray.", "[spheres]")
     auto xs = intersect(s, r);
     REQUIRE(xs.empty());
 }
+
+
+TEST_CASE("The normal on a sphere at a point on the x axis.", "[spheres]")
+{
+    auto s = sphere();
+    auto n = normal_at(s, point(1, 0, 0));
+    REQUIRE(n == vector(1, 0, 0));
+}
+
+
+TEST_CASE("The normal on a sphere at a point on the y axis.", "[spheres]")
+{
+    auto s = sphere();
+    auto n = normal_at(s, point(0, 1, 0));
+    REQUIRE(n == vector(0, 1, 0));
+}
+
+
+TEST_CASE("The normal on a sphere at a point on the z axis.", "[spheres]")
+{
+    auto s = sphere();
+    auto n = normal_at(s, point(0, 0, 1));
+    REQUIRE(n == vector(0, 0, 1));
+}
+
+
+TEST_CASE("The normal on a spehre at a non-axial point.", "[spheres]")
+{
+    auto s = sphere();
+    auto n = normal_at(s, point(std::sqrt(3) / 3, std::sqrt(3) / 3, std::sqrt(3) / 3));
+    REQUIRE(n == vector(std::sqrt(3) / 3, std::sqrt(3) / 3, std::sqrt(3) / 3));
+}
+
+
+TEST_CASE("The normal is a normalized vector.", "[spheres]")
+{
+    auto s = sphere();
+    auto n = normal_at(s, point(std::sqrt(3) / 3, std::sqrt(3) / 3, std::sqrt(3) / 3));
+    REQUIRE(n == normalize(n));
+}
