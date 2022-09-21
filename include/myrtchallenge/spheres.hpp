@@ -12,11 +12,13 @@
 #include <vector>
 
 #include "myrtchallenge/intersections.hpp"
+#include "myrtchallenge/matrices.hpp"
 #include "myrtchallenge/rays.hpp"
 
 
 struct Sphere
 {
+    Matrix transform;
 };
 
 
@@ -27,3 +29,4 @@ SpherePtr sphere();
 
 
 Intersections intersect(SpherePtr sphere, const Ray& ray);
+void set_transform(SpherePtr sphere, const Matrix& m);

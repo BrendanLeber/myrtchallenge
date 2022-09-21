@@ -30,9 +30,8 @@ Tuple position(const Ray& ray, double_t t)
     return ray.origin + ray.direction * t;
 }
 
-#if 0
-Ray transform(const Matrix& m) const
+
+Ray transform(const Ray& ray, const Matrix& m)
 {
-    return Ray{m * origin, m * direction};
+    return Ray{m * ray.origin, m * ray.direction};
 }
-#endif

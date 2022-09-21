@@ -25,4 +25,4 @@ struct Ray
 Ray ray(const Tuple& origin, const Tuple& direction);
 
 Tuple position(const Ray& ray, double_t t);
-//Ray transform(const Ray& ray, const Matrix& m);
+Ray transform(const Ray& ray, const Matrix& m);

@@ -12,6 +12,7 @@
 
 #include <myrtchallenge/rays.hpp>
 #include <myrtchallenge/spheres.hpp>
+#include <myrtchallenge/transformations.hpp>
 
 #include "catch_helpers.hpp"
 
@@ -78,4 +79,42 @@ TEST_CASE("Intersect sets the object on the intersection.", "[spheres]")
     REQUIRE(xs.size() == 2);
     REQUIRE(xs[0].object == s);
     REQUIRE(xs[1].object == s);
+}
+
+
+TEST_CASE("A sphere's default transformation.", "[spheres]")
+{
+    auto s = sphere();
+    REQUIRE(s->transform == identity_matrix());
+}
+
+
+TEST_CASE("Changing a sphere's transformation.", "[spheres]")
+{
+    auto s = sphere();
+    auto t = translation(2, 3, 4);
+    set_transform(s, t);
+    REQUIRE(s->transform == t);
+}
+
+
+TEST_CASE("Intersecting a scaled sphere with a ray.", "[spheres]")
+{
+    auto r = ray(point(0, 0, -5), vector(0, 0, 1));
+    auto s = sphere();
+    set_transform(s, scaling(2, 2, 2));
+    auto xs = intersect(s, r);
+    REQUIRE(xs.size() == 2);
+    REQUIRE(xs[0].t == 3);
+    REQUIRE(xs[1].t == 7);
+}
+
+
+TEST_CASE("Intersecting a translated sphere with a ray.", "[spheres]")
+{
+    auto r = ray(point(0, 0, -5), vector(0, 0, 1));
+    auto s = sphere();
+    set_transform(s, translation(5, 0, 0));
+    auto xs = intersect(s, r);
+    REQUIRE(xs.empty());
 }
