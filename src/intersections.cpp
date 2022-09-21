@@ -5,6 +5,7 @@
  * @copyright Copyright 2022 by Brendan Leber.  Some rights reserved, see LICENSE.
  */
 
+#include <algorithm>
 #include <cmath>
 
 #include "myrtchallenge/intersections.hpp"
@@ -14,17 +15,36 @@
 #include "primitives.hpp"
 
 
+bool Intersection::operator<(const Intersection& rhs) const
+{
+    return t < rhs.t;
+}
+
+
+bool Intersection::operator==(const Intersection& rhs) const
+{
+    return equal(t, rhs.t) && object == rhs.object;
+}
+
+
+Intersection hit(const Intersections& is)
+{
+    auto i = std::find_if(std::begin(is), std::end(is), [](const Intersection& i){ return i.t > 0; });
+    if (i == std::end(is))
+        return intersection(NAN, nullptr);
+    return *i;
+}
+
+
 Intersection intersection(double_t t, SpherePtr object)
 {
     return Intersection{t, object};
 }
 
 
-Intersections intersections(std::initializer_list<Intersection> is)
+Intersections intersections(const Intersections& is)
 {
-    Intersections results;
-    results.reserve(is.size());
-    for (auto& i : is)
-        results.push_back(i);
+    Intersections results{is};
+    std::sort(std::begin(results), std::end(results));
     return results;
 }

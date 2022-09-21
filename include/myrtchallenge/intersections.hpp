@@ -24,11 +24,16 @@ struct Intersection
 {
     double_t t;
     SpherePtr object;
+
+    bool operator<(const Intersection& rhs) const;
+    bool operator==(const Intersection& rhs) const;
+
+    bool hit() const { return !std::isnan(t); }
 };
 
 
 using Intersections = std::vector<Intersection>;
 
-
+Intersection hit(const Intersections& is);
 Intersection intersection(double_t t, SpherePtr object);
-Intersections intersections(std::initializer_list<Intersection> is);
+Intersections intersections(const Intersections& is);
