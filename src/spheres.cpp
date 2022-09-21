@@ -7,21 +7,22 @@
 
 #include <cmath>
 
+#include "myrtchallenge/intersections.hpp"
 #include "myrtchallenge/spheres.hpp"
 #include "myrtchallenge/tuples.hpp"
 
 #include "primitives.hpp"
 
 
-Sphere sphere()
+SpherePtr sphere()
 {
-    return Sphere{};
+    return std::make_shared<Sphere>();
 }
 
 
-std::vector<double_t> intersect(const Sphere& s, const Ray& ray)
+Intersections intersect(SpherePtr sphere, const Ray& ray)
 {
-    std::vector<double_t> results;
+    Intersections results;
 
     // the vector from the sphere's center to the ray origin
     // remember: the sphere is centered at the world origin
@@ -36,8 +37,8 @@ std::vector<double_t> intersect(const Sphere& s, const Ray& ray)
         return results;
 
     results.resize(2);
-    results[0] = (-b - std::sqrt(discriminant)) / (2 * a);
-    results[1] = (-b + std::sqrt(discriminant)) / (2 * a);
+    results[0] = Intersection{(-b - std::sqrt(discriminant)) / (2 * a), sphere};
+    results[1] = Intersection{(-b + std::sqrt(discriminant)) / (2 * a), sphere};
 
     return results;
 }

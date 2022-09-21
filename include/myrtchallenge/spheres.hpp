@@ -8,8 +8,10 @@
  */
 
 #include <cmath>
+#include <memory>
 #include <vector>
 
+#include "myrtchallenge/intersections.hpp"
 #include "myrtchallenge/rays.hpp"
 
 
@@ -18,7 +20,10 @@ struct Sphere
 };
 
 
-Sphere sphere();
+using SpherePtr = std::shared_ptr<Sphere>;
 
 
-std::vector<double_t> intersect(const Sphere& s, const Ray& ray);
+SpherePtr sphere();
+
+
+Intersections intersect(SpherePtr sphere, const Ray& ray);
