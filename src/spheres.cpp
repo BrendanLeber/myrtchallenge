@@ -46,9 +46,13 @@ Intersections intersect(SpherePtr sphere, const Ray& ray)
 }
 
 
-Tuple normal_at(SpherePtr sphere, const Tuple& p)
+Tuple normal_at(SpherePtr sphere, const Tuple& world_point)
 {
-    return normalize(p - point(0, 0, 0));
+    auto object_point = inverse(sphere->transform) * world_point;
+    auto object_normal = object_point - point(0, 0, 0);
+    auto world_normal = transpose(inverse(sphere->transform)) * object_normal;
+    world_normal.w = 0;
+    return normalize(world_normal);
 }
 
 

@@ -29,5 +29,5 @@ SpherePtr sphere();
 
 
 Intersections intersect(SpherePtr sphere, const Ray& ray);
-Tuple normal_at(SpherePtr sphere, const Tuple& p);
+Tuple normal_at(SpherePtr sphere, const Tuple& world_point);
 void set_transform(SpherePtr sphere, const Matrix& m);
