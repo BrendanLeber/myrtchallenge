@@ -7,20 +7,18 @@
 
 #include <cmath>
 
-#include "myrtchallenge/intersections.hpp"
 #include "myrtchallenge/spheres.hpp"
-#include "myrtchallenge/tuples.hpp"
 
 #include "primitives.hpp"
 
 
-SpherePtr sphere()
+Sphere_Ptr sphere()
 {
-    return std::make_shared<Sphere>(identity_matrix());
+    return std::make_shared<Sphere>(identity_matrix(), material());
 }
 
 
-Intersections intersect(SpherePtr sphere, const Ray& ray)
+Intersections intersect(Sphere_Ptr sphere, const Ray& ray)
 {
     Intersections results;
 
@@ -46,7 +44,7 @@ Intersections intersect(SpherePtr sphere, const Ray& ray)
 }
 
 
-Tuple normal_at(SpherePtr sphere, const Tuple& world_point)
+Tuple normal_at(Sphere_Ptr sphere, const Tuple& world_point)
 {
     auto object_point = inverse(sphere->transform) * world_point;
     auto object_normal = object_point - point(0, 0, 0);
@@ -56,7 +54,7 @@ Tuple normal_at(SpherePtr sphere, const Tuple& world_point)
 }
 
 
-void set_transform(SpherePtr sphere, const Matrix& m)
+void set_transform(Sphere_Ptr sphere, const Matrix& m)
 {
     sphere->transform = m;
 }
