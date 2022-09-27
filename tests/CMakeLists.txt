@@ -53,3 +53,7 @@ target_compile_features(tuples_feature PRIVATE cxx_std_20)
 target_link_libraries(tuples_feature PRIVATE myrtchallenge Catch2::Catch2WithMain)
 add_test(NAME tuples_feature COMMAND tuples_feature)
 
+add_executable(world_feature world_feature.cpp)
+target_compile_features(world_feature PRIVATE cxx_std_20)
+target_link_libraries(world_feature PRIVATE myrtchallenge Catch2::Catch2WithMain)
+add_test(NAME world_feature COMMAND world_feature)

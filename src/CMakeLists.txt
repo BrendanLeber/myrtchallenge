@@ -27,6 +27,7 @@ add_library(myrtchallenge
     spheres.cpp
     transformations.cpp
     tuples.cpp
+    world.cpp
     ${HEADER_LIST})
 
 # We need this directory, and users of our library will need it too
