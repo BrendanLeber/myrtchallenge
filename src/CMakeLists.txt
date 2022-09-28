@@ -17,6 +17,7 @@ file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${myrtchallenge_SOURCE_DIR}/include/myr
 
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(myrtchallenge
+    camera.cpp
     canvas.cpp
     colors.cpp
     intersections.cpp
