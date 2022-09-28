@@ -64,5 +64,5 @@ Intersections intersect_world(const World_Ptr& world, const Ray& ray)
 
 Color shade_hit(const World_Ptr& world, const Computations& comps)
 {
-    return lighting(comps.object->material, world->light, comps.point, comps.eyev, comps.normalv);
+    return lighting(comps.object->material, world->light, comps.point, comps.eyev, comps.normalv, false);
 }
