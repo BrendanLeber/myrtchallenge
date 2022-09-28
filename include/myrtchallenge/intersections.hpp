@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "myrtchallenge/rays.hpp"
-//#include "myrtchallenge/spheres.hpp"
 
 
 struct Sphere;
