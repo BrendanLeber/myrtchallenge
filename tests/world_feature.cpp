@@ -195,3 +195,59 @@ SCENARIO("The color with an intersection behind the ray.", "[world]") {
         }
     }
 }
+
+
+SCENARIO("There is no shadow when nothing is collinear with point and light.", "[world]")
+{
+    GIVEN("w <- default_world()") {
+        auto w = default_world();
+        AND_GIVEN("p <- point(0, 10, 0)") {
+            auto p = point(0, 10, 0);
+            THEN("is_shadowed(w, p) is false") {
+                REQUIRE_FALSE(is_shadowed(w, p));
+            }
+        }
+    }
+}
+
+
+SCENARIO("There shadow when an object is between the point and the light.", "[world]")
+{
+    GIVEN("w <- default_world()") {
+        auto w = default_world();
+        AND_GIVEN("p <- point(10, -10, 10)") {
+            auto p = point(10, -10, 10);
+            THEN("is_shadowed(w, p) is true") {
+                REQUIRE(is_shadowed(w, p));
+            }
+        }
+    }
+}
+
+
+SCENARIO("There is no shadow when an object is behind the light.", "[world]")
+{
+    GIVEN("w <- default_world()") {
+        auto w = default_world();
+        AND_GIVEN("p <- point(-20, 20, -20)") {
+            auto p = point(-20, 20, -20);
+            THEN("is_shadowed(w, p) is false") {
+                REQUIRE_FALSE(is_shadowed(w, p));
+            }
+        }
+    }
+}
+
+
+SCENARIO("There is no shadow when an object is behind the point.", "[world]")
+{
+    GIVEN("w <- default_world()") {
+        auto w = default_world();
+        AND_GIVEN("p <- point(-2, 2, -2)") {
+            auto p = point(-2, 2, -2);
+            THEN("is_shadowed(w, p) is false") {
+                REQUIRE_FALSE(is_shadowed(w, p));
+            }
+        }
+    }
+}
