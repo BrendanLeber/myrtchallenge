@@ -43,6 +43,11 @@ target_compile_features(rays_feature PRIVATE cxx_std_20)
 target_link_libraries(rays_feature PRIVATE myrtchallenge Catch2::Catch2WithMain)
 add_test(NAME rays_feature COMMAND rays_feature)
 
+add_executable(shapes_feature shapes_feature.cpp)
+target_compile_features(shapes_feature PRIVATE cxx_std_20)
+target_link_libraries(shapes_feature PRIVATE myrtchallenge Catch2::Catch2WithMain)
+add_test(NAME shapes_feature COMMAND shapes_feature)
+
 add_executable(spheres_feature spheres_feature.cpp)
 target_compile_features(spheres_feature PRIVATE cxx_std_20)
 target_link_libraries(spheres_feature PRIVATE myrtchallenge Catch2::Catch2WithMain)
