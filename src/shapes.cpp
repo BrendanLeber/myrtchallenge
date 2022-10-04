@@ -24,6 +24,13 @@ bool Shape::operator==(const Shape& rhs) const
 }
 
 
+/**
+ * @brief Return the intersections between the given ray and the shape.
+ *
+ * @param shape
+ * @param ray
+ * @return Intersections
+ */
 Intersections intersect(Shape_Ptr shape, const Ray& ray)
 {
     Intersections results;
@@ -33,6 +40,13 @@ Intersections intersect(Shape_Ptr shape, const Ray& ray)
 }
 
 
+/**
+ * @brief Return the normal at the given point on the shape.
+ *
+ * @param shape
+ * @param point
+ * @return Tuple
+ */
 Tuple normal_at(Shape_Ptr shape, const Tuple& point)
 {
     auto local_point = inverse(shape->transform) * point;
@@ -43,6 +57,12 @@ Tuple normal_at(Shape_Ptr shape, const Tuple& point)
 }
 
 
+/**
+ * @brief Set the transformation matrix for the given shape.
+ *
+ * @param shape
+ * @param m
+ */
 void set_transform(Shape_Ptr shape, const Matrix& m)
 {
     shape->transform = m;
@@ -50,9 +70,54 @@ void set_transform(Shape_Ptr shape, const Matrix& m)
 
 
 /**
- * Sphere and support functions.
+ * @brief Construct and return a shared pointer to a Plane.
+ *
+ * @return Shape_Ptr
  */
+Shape_Ptr plane()
+{
+    auto ptr = std::make_shared<Plane>();
+    ptr->transform = identity_matrix();
+    ptr->material = material();
+    return ptr;
+}
 
+
+/**
+ * @brief Return the intersections between the ray and the Sphere.
+ *
+ * @param ray
+ * @return Intersections
+ */
+Intersections Plane::local_intersect(const Ray& ray)
+{
+    Intersections results;
+    if (std::fabs(ray.direction.y) < EPSILON)
+        return results;
+    auto t = -ray.origin.y / ray.direction.y;
+    results.emplace_back(intersection(t, shared_from_this()));
+    return results;
+}
+
+
+/**
+ * @brief Return the local normal at the given point.
+ *
+ * @param pt - unused
+ * @return Tuple
+ */
+Tuple Plane::local_normal_at(const Tuple& /*pt*/) const
+{
+    return vector(0, 1, 0);
+}
+
+
+
+/**
+ * @brief Construct and return a shared pointer to a Sphere.
+ *
+ * @return Shape_Ptr
+ */
 Shape_Ptr sphere()
 {
     auto ptr = std::make_shared<Sphere>();
@@ -62,6 +127,12 @@ Shape_Ptr sphere()
 }
 
 
+/**
+ * @brief Return the intersections between the ray and the Sphere.
+ *
+ * @param ray
+ * @return Intersections
+ */
 Intersections Sphere::local_intersect(const Ray& ray)
 {
     Intersections results;
@@ -86,6 +157,12 @@ Intersections Sphere::local_intersect(const Ray& ray)
 }
 
 
+/**
+ * @brief Return the local normal at the given point.
+ *
+ * @param pt
+ * @return Tuple
+ */
 Tuple Sphere::local_normal_at(const Tuple& pt) const
 {
     return pt - point(0, 0, 0);

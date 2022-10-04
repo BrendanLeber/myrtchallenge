@@ -31,12 +31,11 @@ struct Shape : std::enable_shared_from_this<Shape>
 };
 
 
-using Shape_Ptr = std::shared_ptr<Shape>;
-
-
-Intersections intersect(Shape_Ptr sphere, const Ray& ray);
-Tuple normal_at(Shape_Ptr sphere, const Tuple& point);
-void set_transform(Shape_Ptr sphere, const Matrix& m);
+struct Plane : public Shape
+{
+    Intersections local_intersect(const Ray& ray);
+    Tuple local_normal_at(const Tuple& pt) const;
+};
 
 
 struct Sphere : public Shape
@@ -45,4 +44,14 @@ struct Sphere : public Shape
     Tuple local_normal_at(const Tuple& point) const;
 };
 
+
+using Shape_Ptr = std::shared_ptr<Shape>;
+
+
+Shape_Ptr plane();
 Shape_Ptr sphere();
+
+
+Intersections intersect(Shape_Ptr sphere, const Ray& ray);
+Tuple normal_at(Shape_Ptr sphere, const Tuple& point);
+void set_transform(Shape_Ptr sphere, const Matrix& m);
