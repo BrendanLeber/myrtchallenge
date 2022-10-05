@@ -16,12 +16,6 @@
 #include "primitives.hpp"
 
 
-void set_pattern_transform(Pattern_Ptr& pattern, const Matrix& m)
-{
-    pattern->transform = m;
-}
-
-
 Pattern_Ptr stripe_pattern(const Color& first, const Color& second)
 {
     auto ptr = std::make_shared<Stripe_Pattern>();
@@ -32,17 +26,23 @@ Pattern_Ptr stripe_pattern(const Color& first, const Color& second)
 }
 
 
-Color stripe_at(const Pattern_Ptr& pattern, const Tuple& point)
+Color Stripe_Pattern::pattern_at(const Tuple& point) const
 {
     if (std::fmod(std::floor(point.x), 2) == 0)
-        return pattern->a;
-    return pattern->b;
+        return a;
+    return b;
 }
 
 
-Color stripe_at_object(const Pattern_Ptr& pattern, const Shape_Ptr& object, const Tuple& world_point)
+Color pattern_at_shape(const Pattern_Ptr& pattern, const Shape_Ptr& object, const Tuple& world_point)
 {
     auto object_point = inverse(object->transform) * world_point;
     auto pattern_point = inverse(pattern->transform) * object_point;
-    return stripe_at(pattern, pattern_point);
+    return pattern->pattern_at(pattern_point);
+}
+
+
+void set_pattern_transform(Pattern_Ptr& pattern, const Matrix& m)
+{
+    pattern->transform = m;
 }

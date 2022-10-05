@@ -15,11 +15,95 @@
 #include <myrtchallenge/transformations.hpp>
 
 #include "catch_helpers.hpp"
+#include "test_pattern.hpp"
 
 
 // Background:
 static auto black = color(0, 0, 0);
 static auto white = color(1, 1, 1);
+
+
+SCENARIO("The default test pattern.", "[patterns]") {
+    GIVEN("pattern <- test_pattern()") {
+        auto pattern = test_pattern();
+        THEN("pattern.transform = identity_matrix") {
+            REQUIRE(pattern->transform == identity_matrix());
+        }
+    }
+}
+
+
+SCENARIO("Assigning a transformation.", "[patterns]") {
+    GIVEN("pattern <- test_pattern()") {
+        auto pattern = test_pattern();
+        WHEN("set_pattern_transform(pattern, translation(1, 2, 3))") {
+            set_pattern_transform(pattern, translation(1, 2, 3));
+            THEN("pattern->transform = translation(1, 2, 3)") {
+                REQUIRE(pattern->transform == translation(1, 2, 3));
+            }
+        }
+    }
+}
+
+
+SCENARIO("A pattern with an object transformation.", "[patterns]") {
+    GIVEN("shape <- sphere()") {
+        auto shape = sphere();
+        AND_GIVEN("set_transform(shape, scaling(2, 2, 2))") {
+            set_transform(shape, scaling(2, 2, 2));
+            AND_GIVEN("pattern <- test_pattern()") {
+                auto pattern = test_pattern();
+                WHEN("c <- pattern_at_shape(pattern, shape, point(2, 3, 4)") {
+                    auto c = pattern_at_shape(pattern, shape, point(2, 3, 4));
+                    THEN("c = color(1, 1.5, 2)") {
+                        REQUIRE(c == color(1, 1.5, 2));
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+SCENARIO("A pattern with a pattern transformation.", "[patterns]") {
+    GIVEN("shape <- sphere()") {
+        auto shape = sphere();
+        AND_GIVEN("pattern <- test_pattern()") {
+            auto pattern = test_pattern();
+            AND_GIVEN("set_pattern_transform(pattern, scaling(2, 2, 2))") {
+                set_pattern_transform(pattern, scaling(2, 2, 2));
+                WHEN("c <- pattern_at_shape(pattern, shape, point(2, 3, 4))") {
+                    auto c = pattern_at_shape(pattern, shape, point(2, 3, 4));
+                    THEN("c = color(1, 1.5, 2)") {
+                        REQUIRE(c == color(1, 1.5, 2));
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+SCENARIO("A pattern with both an object and a pattern transformation.", "[patterns]") {
+    GIVEN("shape <- sphere()") {
+        auto shape = sphere();
+        AND_GIVEN("set_transform(shape, scaling(2, 2, 2))") {
+            set_transform(shape, scaling(2, 2, 2));
+            AND_GIVEN("pattern <- test_pattern()") {
+                auto pattern = test_pattern();
+                AND_GIVEN("set_pattern_transform(pattern, translation(0.5, 1, 1.5))") {
+                    set_pattern_transform(pattern, translation(0.5, 1, 1.5));
+                    WHEN("c <- pattern_at_shape(pattern, shape, point(2.5, 3, 3.5))") {
+                        auto c = pattern_at_shape(pattern, shape, point(2.5, 3, 3.5));
+                        THEN("c = color(0.75, 0.5, 0.25)") {
+                            REQUIRE(c == color(0.75, 0.5, 0.25));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 SCENARIO("Creating a stripe pattern.", "[patterns]") {
@@ -39,11 +123,11 @@ SCENARIO("A stripe pattern is constant in y.", "[patterns]") {
     GIVEN("pattern <- stripe_pattern(white, black)") {
         auto pattern = stripe_pattern(white, black);
         THEN("stripe_at(pattern, point(0, 0, 0)) = white") {
-            REQUIRE(stripe_at(pattern, point(0, 0, 0)) == white);
+            REQUIRE(pattern->pattern_at(point(0, 0, 0)) == white);
             AND_THEN("stripe_at(pattern, point(0, 1, 0)) = white") {
-                REQUIRE(stripe_at(pattern, point(0, 1, 0)) == white);
+                REQUIRE(pattern->pattern_at(point(0, 1, 0)) == white);
                 AND_THEN("stripe_at(pattern, point(0, 2, 0)) = white") {
-                    REQUIRE(stripe_at(pattern, point(0, 2, 0)) == white);
+                    REQUIRE(pattern->pattern_at(point(0, 2, 0)) == white);
                 }
             }
         }
@@ -55,11 +139,11 @@ SCENARIO("A stripe pattern is constant in z.", "[patterns]") {
     GIVEN("pattern <- stripe_pattern(white, black)") {
         auto pattern = stripe_pattern(white, black);
         THEN("stripe_at(pattern, point(0, 0, 0)) = white") {
-            REQUIRE(stripe_at(pattern, point(0, 0, 0)) == white);
+            REQUIRE(pattern->pattern_at(point(0, 0, 0)) == white);
             AND_THEN("stripe_at(pattern, point(0, 0, 1)) = white") {
-                REQUIRE(stripe_at(pattern, point(0, 0, 1)) == white);
+                REQUIRE(pattern->pattern_at(point(0, 0, 1)) == white);
                 AND_THEN("stripe_at(pattern, point(0, 0, 2)) = white") {
-                    REQUIRE(stripe_at(pattern, point(0, 0, 2)) == white);
+                    REQUIRE(pattern->pattern_at(point(0, 0, 2)) == white);
                 }
             }
         }
@@ -71,17 +155,17 @@ SCENARIO("A stripe pattern alternates in x.", "[patterns]") {
     GIVEN("pattern <- stripe_pattern(white, black)") {
         auto pattern = stripe_pattern(white, black);
         THEN("stripe_at(pattern, point(0, 0, 0)) = white") {
-            REQUIRE(stripe_at(pattern, point(0, 0, 0)) == white);
+            REQUIRE(pattern->pattern_at(point(0, 0, 0)) == white);
             AND_THEN("stripe_at(pattern, point(0.9, 0, 0) = white") {
-                REQUIRE(stripe_at(pattern, point(0.9, 0, 0)) == white);
+                REQUIRE(pattern->pattern_at(point(0.9, 0, 0)) == white);
                 AND_THEN("stripe_at(pattern, point(1, 0, 0)) = black") {
-                    REQUIRE(stripe_at(pattern, point(1, 0, 0)) == black);
+                    REQUIRE(pattern->pattern_at(point(1, 0, 0)) == black);
                     AND_THEN("stripe_at(pattern, point(-0.1, 0, 0)) = black") {
-                        REQUIRE(stripe_at(pattern, point(-0.1, 0, 0)) == black);
+                        REQUIRE(pattern->pattern_at(point(-0.1, 0, 0)) == black);
                         AND_THEN("stripe_at(pattern, point(-1, 0, 0)) = black") {
-                            REQUIRE(stripe_at(pattern, point(-1, 0, 0)) == black);
+                            REQUIRE(pattern->pattern_at(point(-1, 0, 0)) == black);
                             AND_THEN("stripe_at(pattern, point(-1.1, 0, 0)) = white") {
-                                REQUIRE(stripe_at(pattern, point(-1.1, 0, 0)) == white);
+                                REQUIRE(pattern->pattern_at(point(-1.1, 0, 0)) == white);
                             }
                         }
                     }
@@ -99,8 +183,8 @@ SCENARIO("Stripes with an object transformation.", "[patterns]") {
             set_transform(object, scaling(2, 2, 2));
             AND_GIVEN("pattern <- stripe_pattern(white, black)") {
                 auto pattern = stripe_pattern(white, black);
-                WHEN("c <- stripe_at_object(pattern, object, point(1.5, 0, 0))") {
-                    auto c = stripe_at_object(pattern, object, point(1.5, 0, 0));
+                WHEN("c <- pattern_at_shape(pattern, object, point(1.5, 0, 0))") {
+                    auto c = pattern_at_shape(pattern, object, point(1.5, 0, 0));
                     THEN("c = white") {
                         REQUIRE(c == white);
                     }
@@ -118,8 +202,8 @@ SCENARIO("Stripes with a pattern transformation.", "[patterns]") {
             auto pattern = stripe_pattern(white, black);
             AND_GIVEN("set_pattern_transform(pattern, scaling(2, 2, 2))") {
                 set_pattern_transform(pattern, scaling(2, 2, 2));
-                WHEN("c <- stripe_at_object(pattern, object, point(1.5, 0, 0))") {
-                    auto c = stripe_at_object(pattern, object, point(1.5, 0, 0));
+                WHEN("c <- pattern_at_shape(pattern, object, point(1.5, 0, 0))") {
+                    auto c = pattern_at_shape(pattern, object, point(1.5, 0, 0));
                     THEN("c = white") {
                         REQUIRE(c == white);
                     }
@@ -139,8 +223,8 @@ SCENARIO("Stripes with both an object and a pattern transformation.", "[patterns
                 auto pattern = stripe_pattern(white, black);
                 AND_GIVEN("set_pattern_transform(pattern, translation(0.5, 0, 0))") {
                     set_pattern_transform(pattern, translation(0.5, 0, 0));
-                    WHEN("c <- stripe_at_object(pattern, object, point(2.5, 0, 0))") {
-                        auto c = stripe_at_object(pattern, object, point(2.5, 0, 0));
+                    WHEN("c <- pattern_at_shape(pattern, object, point(2.5, 0, 0))") {
+                        auto c = pattern_at_shape(pattern, object, point(2.5, 0, 0));
                         THEN("c = white") {
                             REQUIRE(c == white);
                         }

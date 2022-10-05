@@ -20,14 +20,19 @@ struct Shape;
 
 struct Pattern : std::enable_shared_from_this<Pattern>
 {
+    virtual ~Pattern() = default;
+
     Color a;
     Color b;
     Matrix transform;
+
+    virtual Color pattern_at(const Tuple& point) const = 0;
 };
 
 
 struct Stripe_Pattern : public Pattern
 {
+    Color pattern_at(const Tuple& point) const;
 };
 
 
@@ -36,8 +41,5 @@ using Pattern_Ptr = std::shared_ptr<Pattern>;
 Pattern_Ptr stripe_pattern(const Color& first, const Color& second);
 
 
+Color pattern_at_shape(const Pattern_Ptr& pattern, const std::shared_ptr<Shape>& object, const Tuple& world_point);
 void set_pattern_transform(Pattern_Ptr& pattern, const Matrix& m);
-
-
-Color stripe_at(const Pattern_Ptr& pattern, const Tuple& point);
-Color stripe_at_object(const Pattern_Ptr& pattern, const std::shared_ptr<Shape>& object, const Tuple& world_point);

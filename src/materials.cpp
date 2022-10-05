@@ -61,7 +61,7 @@ Color lighting(const Material_Ptr& material, const Shape_Ptr& object, const Poin
 {
     auto effective_color = material->color;
     if (material->pattern)
-        effective_color = stripe_at_object(material->pattern, object, point);
+        effective_color = pattern_at_shape(material->pattern, object, point);
 
     // combine the surface color with the light's color/itensity.
     effective_color = effective_color * light->intensity;
