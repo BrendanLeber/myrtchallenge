@@ -12,6 +12,7 @@
 
 #include "myrtchallenge/patterns.hpp"
 #include "myrtchallenge/materials.hpp"
+#include "myrtchallenge/shapes.hpp"
 
 #include "primitives.hpp"
 
@@ -51,15 +52,16 @@ Material_Ptr material()
     ptr->diffuse   = 0.9;
     ptr->specular  = 0.9;
     ptr->shininess = 200.0;
+    ptr->pattern   = nullptr;
     return ptr;
 }
 
 
-Color lighting(const Material_Ptr material, const Point_Light_Ptr light, const Tuple& point, const Tuple& eyev, const Tuple& normalv, bool in_shadow)
+Color lighting(const Material_Ptr& material, const Shape_Ptr& object, const Point_Light_Ptr& light, const Tuple& point, const Tuple& eyev, const Tuple& normalv, bool in_shadow)
 {
     auto effective_color = material->color;
     if (material->pattern)
-        effective_color = stripe_at(material->pattern, point);
+        effective_color = stripe_at_object(material->pattern, object, point);
 
     // combine the surface color with the light's color/itensity.
     effective_color = effective_color * light->intensity;

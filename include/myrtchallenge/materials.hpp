@@ -14,6 +14,7 @@
 #include "myrtchallenge/lights.hpp"
 #include "myrtchallenge/patterns.hpp"
 
+struct Shape;
 
 struct Material
 {
@@ -35,4 +36,4 @@ using Material_Ptr = std::shared_ptr<Material>;
 Material_Ptr material();
 
 
-Color lighting(const Material_Ptr material, const Point_Light_Ptr light, const Tuple& position, const Tuple& eyev, const Tuple& normalv, bool in_shadow);
+Color lighting(const Material_Ptr& material, const std::shared_ptr<Shape>& object, const Point_Light_Ptr& light, const Tuple& position, const Tuple& eyev, const Tuple& normalv, bool in_shadow);
