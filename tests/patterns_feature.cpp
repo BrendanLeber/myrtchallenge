@@ -253,3 +253,22 @@ SCENARIO("A gradient linearly interpolates between colors.", "[patterns]") {
         }
     }
 }
+
+
+SCENARIO("A ring should extend in both x and z.", "[patterns]") {
+    GIVEN("pattern <- ring_pattern(white, black)") {
+        auto pattern = ring_pattern(white, black);
+        THEN("pattern_at(pattern, point(0, 0, 0)) = white") {
+            REQUIRE(pattern->pattern_at(point(0, 0, 0)) == white);
+            AND_THEN("pattern_at(pattern, point(1, 0, 0)) = black") {
+                REQUIRE(pattern->pattern_at(point(1, 0, 0)) == black);
+                AND_THEN("pattern_at(pattern, point(0, 0, 1)) = black") {
+                    REQUIRE(pattern->pattern_at(point(0, 0, 1)) == black);
+                    AND_THEN("pattern_at(pattern, point(0.708, 0, 0.708)) = black") {
+                        REQUIRE(pattern->pattern_at(point(0.708, 0, 0.708)) == black);
+                    }
+                }
+            }
+        }
+    }
+}

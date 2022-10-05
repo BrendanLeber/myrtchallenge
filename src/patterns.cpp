@@ -25,6 +25,17 @@ Pattern_Ptr gradient_pattern(const Color& first, const Color& second)
     return ptr;
 }
 
+
+Pattern_Ptr ring_pattern(const Color& first, const Color& second)
+{
+    auto ptr = std::make_shared<Ring_Pattern>();
+    ptr->a = first;
+    ptr->b = second;
+    ptr->transform = identity_matrix();
+    return ptr;
+}
+
+
 Pattern_Ptr stripe_pattern(const Color& first, const Color& second)
 {
     auto ptr = std::make_shared<Stripe_Pattern>();
@@ -40,6 +51,14 @@ Color Gradient_Pattern::pattern_at(const Tuple& point) const
     auto distance = b - a;
     auto fraction = point.x - floor(point.x);
     return a + distance * fraction;
+}
+
+
+Color Ring_Pattern::pattern_at(const Tuple& point) const
+{
+    if (std::fmod(std::sqrt(std::pow(point.x, 2) + std::pow(point.z, 2)), 2) == 0)
+        return a;
+    return b;
 }
 
 

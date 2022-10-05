@@ -36,6 +36,12 @@ struct Gradient_Pattern : public Pattern
 };
 
 
+struct Ring_Pattern : public Pattern
+{
+    Color pattern_at(const Tuple& point) const;
+};
+
+
 struct Stripe_Pattern : public Pattern
 {
     Color pattern_at(const Tuple& point) const;
@@ -45,6 +51,7 @@ struct Stripe_Pattern : public Pattern
 using Pattern_Ptr = std::shared_ptr<Pattern>;
 
 Pattern_Ptr gradient_pattern(const Color& first, const Color& second);
+Pattern_Ptr ring_pattern(const Color& first, const Color& second);
 Pattern_Ptr stripe_pattern(const Color& first, const Color& second);
 
 
