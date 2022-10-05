@@ -272,3 +272,51 @@ SCENARIO("A ring should extend in both x and z.", "[patterns]") {
         }
     }
 }
+
+
+SCENARIO("Checkers should repeat in x.", "[patterns]") {
+    GIVEN("pattern <- checkers_pattern(white, black)") {
+        auto pattern = checkers_pattern(white, black);
+        THEN("pattern_at(pattern, point(0, 0, 0)) = white") {
+            REQUIRE(pattern->pattern_at(point(0, 0, 0)) == white);
+            AND_THEN("pattern_at(pattern, point(0.99, 0, 0)) = white") {
+                REQUIRE(pattern->pattern_at(point(0.99, 0, 0)) == white);
+                AND_THEN("pattern_at(pattern, point(1.01, 0, 0)) = black") {
+                    REQUIRE(pattern->pattern_at(point(1.01, 0, 0)) == black);
+                }
+            }
+        }
+    }
+}
+
+
+SCENARIO("Checkers should repeat in y.", "[patterns]") {
+    GIVEN("pattern <- checkers_pattern(white, black)") {
+        auto pattern = checkers_pattern(white, black);
+        THEN("pattern_at(pattern, point(0, 0, 0)) = white") {
+            REQUIRE(pattern->pattern_at(point(0, 0, 0)) == white);
+            AND_THEN("pattern_at(pattern, point(0, 0.99, 0)) = white") {
+                REQUIRE(pattern->pattern_at(point(0, 0.99, 0)) == white);
+                AND_THEN("pattern_at(pattern, point(0, 1.01, 0)) = black") {
+                    REQUIRE(pattern->pattern_at(point(0, 1.01, 0)) == black);
+                }
+            }
+        }
+    }
+}
+
+
+SCENARIO("Checkers should repeat in z.", "[patterns]") {
+    GIVEN("pattern <- checkers_pattern(white, black)") {
+        auto pattern = checkers_pattern(white, black);
+        THEN("pattern_at(pattern, point(0, 0, 0)) = white") {
+            REQUIRE(pattern->pattern_at(point(0, 0, 0)) == white);
+            AND_THEN("pattern_at(pattern, point(0, 0, 0.99)) = white") {
+                REQUIRE(pattern->pattern_at(point(0, 0, 0.99)) == white);
+                AND_THEN("pattern_at(pattern, point(0, 0, 1.01)) = black") {
+                    REQUIRE(pattern->pattern_at(point(0, 0, 1.01)) == black);
+                }
+            }
+        }
+    }
+}

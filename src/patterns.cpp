@@ -16,6 +16,16 @@
 #include "primitives.hpp"
 
 
+Pattern_Ptr checkers_pattern(const Color& first, const Color& second)
+{
+    auto ptr = std::make_shared<Checkers_Pattern>();
+    ptr->a = first;
+    ptr->b = second;
+    ptr->transform = identity_matrix();
+    return ptr;
+}
+
+
 Pattern_Ptr gradient_pattern(const Color& first, const Color& second)
 {
     auto ptr = std::make_shared<Gradient_Pattern>();
@@ -43,6 +53,14 @@ Pattern_Ptr stripe_pattern(const Color& first, const Color& second)
     ptr->b = second;
     ptr->transform = identity_matrix();
     return ptr;
+}
+
+
+Color Checkers_Pattern::pattern_at(const Tuple& point) const
+{
+    if (std::fmod(std::floor(point.x) + std::floor(point.y) + std::floor(point.z), 2) == 0)
+        return a;
+    return b;
 }
 
 
