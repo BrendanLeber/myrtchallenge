@@ -16,6 +16,15 @@
 #include "primitives.hpp"
 
 
+Pattern_Ptr gradient_pattern(const Color& first, const Color& second)
+{
+    auto ptr = std::make_shared<Gradient_Pattern>();
+    ptr->a = first;
+    ptr->b = second;
+    ptr->transform = identity_matrix();
+    return ptr;
+}
+
 Pattern_Ptr stripe_pattern(const Color& first, const Color& second)
 {
     auto ptr = std::make_shared<Stripe_Pattern>();
@@ -23,6 +32,14 @@ Pattern_Ptr stripe_pattern(const Color& first, const Color& second)
     ptr->b = second;
     ptr->transform = identity_matrix();
     return ptr;
+}
+
+
+Color Gradient_Pattern::pattern_at(const Tuple& point) const
+{
+    auto distance = b - a;
+    auto fraction = point.x - floor(point.x);
+    return a + distance * fraction;
 }
 
 

@@ -234,3 +234,22 @@ SCENARIO("Stripes with both an object and a pattern transformation.", "[patterns
         }
     }
 }
+
+
+SCENARIO("A gradient linearly interpolates between colors.", "[patterns]") {
+    GIVEN("pattern <- graident_pattern(white, black)") {
+        auto pattern = gradient_pattern(white, black);
+        THEN("pattern_at(pattern, point(0, 0, 0)) = white") {
+            REQUIRE(pattern->pattern_at(point(0, 0, 0)) == white);
+            AND_THEN("pattern_at(pattern, point(0.25, 0, 0) = color(0.75, 0.75, 0.75)") {
+                REQUIRE(pattern->pattern_at(point(0.25, 0, 0)) == color(0.75, 0.75, 0.75));
+                AND_THEN("pattern_at(pattern, point(0.5, 0, 0)) = color(0.5, 0.5, 0.5)") {
+                    REQUIRE(pattern->pattern_at(point(0.5, 0, 0)) == color(0.5, 0.5, 0.5));
+                    AND_THEN("pattern_at(pattern, point(0.75, 0, 0)) = color(0.5, 0.5, 0.5)") {
+                        REQUIRE(pattern->pattern_at(point(0.75, 0, 0)) == color(0.25, 0.25, 0.25));
+                    }
+                }
+            }
+        }
+    }
+}
