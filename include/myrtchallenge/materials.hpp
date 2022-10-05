@@ -12,6 +12,7 @@
 
 #include "myrtchallenge/colors.hpp"
 #include "myrtchallenge/lights.hpp"
+#include "myrtchallenge/patterns.hpp"
 
 
 struct Material
@@ -21,6 +22,7 @@ struct Material
     double_t diffuse;
     double_t specular;
     double_t shininess;
+    Pattern_Ptr pattern;
 
     bool operator==(const Material& rhs) const;
     bool operator!=(const Material& rhs) const;

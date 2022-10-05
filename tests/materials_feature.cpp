@@ -163,3 +163,40 @@ SCENARIO("Lighting with the surface in shadow.", "[materials]") {
         }
     }
 }
+
+
+SCENARIO("Lighting with a pattern applied.", "[materials]") {
+    GIVEN("m.pattern <- stripe_pattern(color(1, 1, 1), color(0, 0, 0))") {
+        m->pattern = stripe_pattern(color(1, 1, 1), color(0, 0, 0));
+        AND_GIVEN("m.ambient <- 1") {
+            m->ambient = 1;
+            AND_GIVEN("m.diffuse <- 0") {
+                m->diffuse = 0;
+                AND_GIVEN("m.specular <- 0") {
+                    m->specular = 0;
+                    AND_GIVEN("eyev <- vector(0, 0, -1)") {
+                        auto eyev = vector(0, 0, -1);
+                        AND_GIVEN("normalv <- vector(0, 0, -1)") {
+                            auto normalv = vector(0, 0, -1);
+                            AND_GIVEN("light <- point_light(point(0, 0, -10), color(1, 1, 1))") {
+                                auto light = point_light(point(0, 0, -10), color(1, 1, 1));
+                                WHEN("c1 <- lighting(m, light, point(0.9, 0, 0), eyev, normalv, false)") {
+                                    auto c1 = lighting(m, light, point(0.9, 0, 0), eyev, normalv, false);
+                                    AND_WHEN("c2 <- lighting(m, light, point(1.1, 0, 0), eyev, normalv, false)") {
+                                        auto c2 = lighting(m, light, point(1.1, 0, 0), eyev, normalv, false);
+                                        THEN("c1 = color(1, 1, 1)") {
+                                            REQUIRE(c1 == color(1, 1, 1));
+                                            AND_THEN("c2 = color(0, 0, 0)") {
+                                                REQUIRE(c2 == color(0, 0, 0));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
